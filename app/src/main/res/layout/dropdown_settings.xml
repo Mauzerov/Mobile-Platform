@@ -1,0 +1,131 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dropdown_menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/dropdown_settings_closing_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+        android:focusable="true"
+        android:contentDescription="@string/dropdown_closing_button_description" />
+
+    <LinearLayout
+        android:id="@+id/dropdown_settings_row_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dropdown_layout_padding"
+        android:layout_marginTop="@dimen/dropdown_layout_margin_top_between"
+        android:layout_marginEnd="@dimen/dropdown_layout_padding"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/dropdown_layout_padding"
+        android:paddingLeft="@dimen/dropdown_layout_padding"
+        android:paddingEnd="@dimen/dropdown_layout_padding"
+        android:paddingRight="@dimen/dropdown_layout_padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Switch
+            android:id="@+id/dropdown_settings_controller_side_switch"
+            style="@style/dropdown_settings_colour_scheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_controller_side_label"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dropdown_settings_row_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dropdown_layout_padding"
+        android:layout_marginEnd="@dimen/dropdown_layout_padding"
+        android:layout_marginTop="@dimen/dropdown_layout_margin_top_between"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dropdown_layout_padding"
+        android:paddingLeft="@dimen/dropdown_layout_padding"
+        android:paddingEnd="@dimen/dropdown_layout_padding"
+        android:paddingRight="@dimen/dropdown_layout_padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dropdown_settings_row_1">
+
+        <CheckBox
+            android:id="@+id/dropdown_custom_location_checkbox"
+            style="@style/dropdown_settings_colour_scheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-7dp"
+            android:layout_gravity="end"
+            android:text="@string/setting_controller_custom" />
+
+        <Button
+            android:id="@+id/dropdown_custom_location_button"
+            style="@style/dropdown_settings_colour_scheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/setting_controller_custom_button" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dropdown_settings_row_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dropdown_layout_padding"
+        android:layout_marginEnd="@dimen/dropdown_layout_padding"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dropdown_layout_padding"
+        android:paddingLeft="@dimen/dropdown_layout_padding"
+        android:paddingEnd="@dimen/dropdown_layout_padding"
+        android:paddingRight="@dimen/dropdown_layout_padding"
+        android:layout_marginTop="@dimen/dropdown_layout_margin_top_between"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dropdown_settings_row_2">
+
+        <Switch
+            android:id="@+id/dropdown_music_swich"
+            style="@style/dropdown_settings_colour_scheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/dropdown_music_switch_label"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <Switch
+            android:id="@+id/dropdown_sound_switch"
+            android:checked="true"
+            style="@style/dropdown_settings_colour_scheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dropdown_sound_switch_label"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dropdown_settings_row_4"
+        android:layout_marginTop="@dimen/dropdown_layout_margin_top_between"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dropdown_layout_padding"
+        android:layout_marginEnd="@dimen/dropdown_layout_padding"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dropdown_layout_padding"
+        android:paddingLeft="@dimen/dropdown_layout_padding"
+        android:paddingEnd="@dimen/dropdown_layout_padding"
+        android:paddingRight="@dimen/dropdown_layout_padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dropdown_settings_row_3">
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

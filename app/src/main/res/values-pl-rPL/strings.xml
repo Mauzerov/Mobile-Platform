@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setting_controller_side_label">Odwrócone Sterowanie</string>
+    <string name="setting_controller_custom">Własna\nLokalizacja</string>
+    <string name="setting_controller_custom_button">Zmień Lokalizację</string>
+    <string name="dropdown_closing_button_description">Przycick Zamykający</string>
+    <string name="dropdown_music_switch_label">Muzyka</string>
+    <string name="dropdown_sound_switch_label">Dzwięk</string>
+</resources>

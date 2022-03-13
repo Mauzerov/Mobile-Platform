@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp">
+
+    <TextView
+        android:id="@+id/main_menu_save_row_info"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/main_menu_save_row_height"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/main_menu_save_row_play"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/main_menu_save_row_delete"
+        android:layout_width="@dimen/main_menu_save_row_height"
+        android:layout_height="@dimen/main_menu_save_row_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <ImageButton
+        android:id="@+id/main_menu_save_row_play"
+        android:layout_width="@dimen/main_menu_save_row_height"
+        android:layout_height="@dimen/main_menu_save_row_height"
+        app:layout_constraintEnd_toStartOf="@+id/main_menu_save_row_delete"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/test_img_draw_canvas" />
+</androidx.constraintlayout.widget.ConstraintLayout>

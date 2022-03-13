@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.mauzerov.tmptmptmptmp3fileapp2frag.MainActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_save_map"
+        android:orderInCategory="200"
+        android:title="Save Map"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_height_change"
+        android:orderInCategory="200"
+        android:title="type"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_log_map"
+        android:orderInCategory="200"
+        android:title="Log Map"
+        app:showAsAction="never" />
+
+</menu>

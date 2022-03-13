@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name" translatable="false">Mobile Platform</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="title_activity" translatable="false">@string/app_name</string>
+    <string name="dropdown_button_show" translatable="false">Show Settings</string>
+    <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>
+    <string name="title_activity_tmp" translatable="false">FullscreenActivity</string>
+    <string name="dummy_button" translatable="false">Dummy Button</string>
+    <string name="setting_controller_side_label">Inverted Controls</string>
+    <string name="setting_controller_custom">Custom Controls\nLocations</string>
+    <string name="setting_controller_custom_button">Change Locations</string>
+    <string name="dropdown_closing_button_description">Closing Button</string>
+    <string name="dropdown_music_switch_label">Music</string>
+    <string name="dropdown_sound_switch_label">Sound</string>
+
+    <string name="first_fragment_label" translatable="false">Main Menu Fragment</string>
+    <string name="second_fragment_label" translatable="false">Game Fragment</string>
+    <string name="third_fragment_label" translatable="false">Settings Fragment</string>
+    <string name="fourth_fragment_label" translatable="false">Credits Fragment</string>
+
+    <string name="hello_first_fragment" translatable="false">Hello first fragment</string>
+    <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="nothing" />
+</resources>
