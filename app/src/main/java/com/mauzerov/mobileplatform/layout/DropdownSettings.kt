@@ -39,7 +39,7 @@ class DropdownSettings : Droppable {
         locationSwitch = findViewById(R.id.dropdown_settings_controller_side_switch)
 
         locationCheckBox.setOnCheckedChangeListener {
-            sender, isChecked ->
+                _, isChecked ->
             if (isChecked) {
                 locationButton.isEnabled = true;
                 locationSwitch.isEnabled = false;

@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.animation.Animation
@@ -14,13 +13,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.core.content.ContextCompat
 import com.mauzerov.mobileplatform.game.Dimensions
 import com.mauzerov.mobileplatform.game.JoyStick
-import com.mauzerov.mobileplatform.game.canvas.GameConstants
 import com.mauzerov.mobileplatform.game.canvas.GameMap
 import com.mauzerov.mobileplatform.game.canvas.GameTopBar
 import com.mauzerov.mobileplatform.layout.DropdownEq
 import com.mauzerov.mobileplatform.layout.DropdownSettings
 import com.mauzerov.mobileplatform.layout.Droppable
 import com.mauzerov.mobileplatform.databinding.ActivityMainBinding
+import com.mauzerov.mobileplatform.game.canvas.GameConstants
 import com.mauzerov.mobileplatform.layout.MainMenuLayout
 import com.mauzerov.mobileplatform.sizes.Size
 import com.mauzerov.mobileplatform.source.FunctionStack
@@ -32,15 +31,17 @@ class MainActivity : AppCompatActivity(), JoyStick.JoystickListener {
     private lateinit var dropdownAnimationSlideDown: Animation
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private lateinit var mainMenu: MainMenuLayout
+    private var mainMenu: MainMenuLayout? = null
     private var settingMenu: View? = null
-    private var eqMenu: View? = null
+    var eqMenu: View? = null
+        private set
     private var gameMap: GameMap? = null
     var gameTopBar: GameTopBar? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -64,6 +65,13 @@ class MainActivity : AppCompatActivity(), JoyStick.JoystickListener {
 //                createOrHideSettingMenu()
 //            }
 //        }
+        savedInstanceState?: run {
+            makeMainMenu()
+        }
+    }
+
+    fun makeMainMenu() {
+        mainMenu?.run{ binding.activityMainLayout.removeView(mainMenu) }
         mainMenu = MainMenuLayout(this)
         val mainMenuLayoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT)
@@ -72,8 +80,27 @@ class MainActivity : AppCompatActivity(), JoyStick.JoystickListener {
     }
 
     fun loadGame(fileName: String) {
-        newGame(fileName)
+        gameMap = GameMap(this, fileName)
+        val gameTopBarLayout = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams(MATCH_PARENT, 80)
+        )
         gameMap!!.readSaveFile()
+        gameTopBar = GameTopBar(this, gameMap!!)
+        binding.activityMainLayout.addView(gameMap)
+        binding.activityMainLayout.addView(gameTopBar, gameTopBarLayout)
+        binding.joystick.visibility = View.VISIBLE
+        binding.joystick.bringToFront()
+        gameTopBar!!.bringToFront()
+
+        backButtonStack += {
+            this.gameMap!!.saveSaveFile()
+            this.binding.activityMainLayout.removeView(this.gameMap)
+            this.binding.joystick.visibility = View.GONE
+            this.gameMap = null
+            this.binding.activityMainLayout.removeView(this.gameTopBar)
+            this.gameTopBar = null
+            makeMainMenu()
+        }
     }
 
     fun newGame(fileName: String) {
@@ -95,6 +122,7 @@ class MainActivity : AppCompatActivity(), JoyStick.JoystickListener {
             this.gameMap = null
             this.binding.activityMainLayout.removeView(this.gameTopBar)
             this.gameTopBar = null
+            makeMainMenu()
         }
     }
 
@@ -125,7 +153,6 @@ class MainActivity : AppCompatActivity(), JoyStick.JoystickListener {
             backButtonStack.call()
             return
         }
-
         super.onBackPressed()
     }
 /*
@@ -250,7 +277,12 @@ class MainActivity : AppCompatActivity(), JoyStick.JoystickListener {
 
 
     override fun onJoystickMoved(percent: Dimensions, id: Int) {
-        gameMap?.player?.setVelocity(percent.x.times(5).toInt(), 0)//-percent.y.times(5).toInt()
+        gameMap?.player?.let{
+            it.setVelocity(
+                percent.x.times(5).toInt(),
+                null
+            )
+        }
     }
 
 //    override fun onPause() {

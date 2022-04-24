@@ -7,5 +7,5 @@ class PlayerSaveData() : EntitySaveData() {
         heath = player.health
         position = player.position
     }
-    var heath: Int = 0;
+    var heath: Int = 0
 }

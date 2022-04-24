@@ -1,5 +1,6 @@
 package com.mauzerov.mobileplatform.game.entity
 
+import com.mauzerov.mobileplatform.game.canvas.GameConstants
 import com.mauzerov.mobileplatform.sizes.Position
 import com.mauzerov.mobileplatform.sizes.Size
 import java.io.Externalizable
@@ -11,8 +12,10 @@ abstract class Entity: Externalizable {
     val position: Position = Position(0,0)
     val size: Size = Size(0, 0);
 
-    fun move() = position.move()
-    fun setVelocity(dx: Int, dy: Int) = position.setVelocity(dx, dy)
+    open fun move() {
+        position.move()
+    }
+    fun setVelocity(dx: Int?, dy: Int?) = position.setVelocity(dx, dy)
 
     override fun readExternal(`in`: ObjectInput?) {
         `in`?.let {

@@ -1,12 +1,42 @@
 package com.mauzerov.mobileplatform.game.entity
 
+import android.util.Log
+import com.mauzerov.mobileplatform.game.canvas.GameConstants
 import com.mauzerov.mobileplatform.sizes.Position
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.ObjectInput
 import java.io.ObjectOutput
 import java.io.Serializable
 
 abstract class LivingEntity : Entity(), Serializable {
-    var health: Int = MAX_HEALTH
+    abstract val leapTimeMillis: Long
+    abstract val leapStrength: Float
+
+    var isJumping: Boolean = false
+        private set
+
+    override fun move() {
+        setVelocity (null, if(!isJumping) -GameConstants.gravity else (GameConstants.gravity * leapStrength).toInt())
+        super.move()
+    }
+
+    fun jump(isOnGround: (Position) -> Boolean) {
+        Log.d("JUMP", isOnGround(position).toString() + " " + isJumping.toString())
+        if (!isOnGround(position)) {
+            Log.d("JUMP", "Not Jumping")
+            return
+        }
+        GlobalScope.launch {
+            isJumping = true
+            delay(leapTimeMillis)
+            isJumping = false
+        }
+    }
+
+    var health: Int = BASE_HEATH
+    open val MAX_HEALTH = BASE_HEATH
 
     fun hit(healthPoints: Int): Boolean {
         return run {
@@ -17,6 +47,7 @@ abstract class LivingEntity : Entity(), Serializable {
 
     fun heal(healthPoints: Int): Boolean {
         if (!canHeal()) return false
+        Log.d("Nothing", MAX_HEALTH.toString())
         health = MAX_HEALTH.coerceAtMost(health + healthPoints)
         return true
     }
@@ -36,6 +67,6 @@ abstract class LivingEntity : Entity(), Serializable {
     }
 
     companion object {
-        const val MAX_HEALTH: Int = 10
+        const val BASE_HEATH = 10
     }
 }

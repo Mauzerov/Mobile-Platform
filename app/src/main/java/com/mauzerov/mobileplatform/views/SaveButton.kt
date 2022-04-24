@@ -46,5 +46,10 @@ class SaveButton(context: Context, menu: MainMenuLayout, saveFileName: String) :
                 (context as MainActivity).newGame(saveFileName)
             }
         }
+
+        deleteButton.setOnClickListener {
+            saveFile.delete()
+            (context as MainActivity).makeMainMenu()
+        }
     }
 }

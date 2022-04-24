@@ -2,8 +2,7 @@ package com.mauzerov.mobileplatform.game.canvas
 
 import android.annotation.SuppressLint
 import android.graphics.Canvas
-import com.mauzerov.mobileplatform.MainActivity
-import com.mauzerov.mobileplatform.engine.Buffer
+import com.mauzerov.mobileplatform.items.ItemDrawable
 
 class GameDrawThread(private val view: GameMap) : Thread() {
     var isRunning = false
@@ -19,9 +18,17 @@ class GameDrawThread(private val view: GameMap) : Thread() {
             try {
                 val startTime = System.currentTimeMillis()
                 canvas = view.holder.lockCanvas()
-                view.player.move()
+                for (entity in view.entities) {
+                    entity.move()
+                }
                 synchronized(view.holder) { view.onDraw(canvas) }
                 val duration = System.currentTimeMillis() - startTime
+
+                view.player.selectedItem?.let {
+                    if (it is ItemDrawable && it.isShowed) {
+                        it.drawMySelf(canvas)
+                    }
+                }
 
                 sleep(0L.coerceAtLeast(RefreshInterval - duration))
             } finally {

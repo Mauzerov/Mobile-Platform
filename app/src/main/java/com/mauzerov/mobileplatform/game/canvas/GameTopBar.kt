@@ -12,6 +12,7 @@ import com.mauzerov.mobileplatform.between
 import com.mauzerov.mobileplatform.engine.drawing.AlphaColor
 import com.mauzerov.mobileplatform.engine.drawing.DisplayRect
 import com.mauzerov.mobileplatform.game.entity.human.Player
+import com.mauzerov.mobileplatform.layout.DropdownEq
 import com.mauzerov.mobileplatform.engine.drawing.DrawFunctions as drawing
 
 
@@ -38,6 +39,7 @@ class GameTopBar(context: Context, var game: GameMap) : SurfaceView(context), Su
 
                     if (e.x.between((width - height - height).toFloat(), width.toFloat())) {
                         main.toggleEqMenu()
+                        (main.eqMenu as DropdownEq).refill(game)
                         return true
                     }
                 }
@@ -81,7 +83,7 @@ class GameTopBar(context: Context, var game: GameMap) : SurfaceView(context), Su
 
             var offset = (height shr 1) + height
             // Player Hearts
-            val heartsPercent = game.player.health.toFloat() / Player.MAX_HEALTH
+            val heartsPercent = game.player.health.toFloat() / game.player.MAX_HEALTH
             // Display Non-Colored
 
             var possibleHearts = HEART_DISPLAY_AMOUNT

@@ -32,11 +32,20 @@ import com.mauzerov.mobileplatform.game.canvas.GameConstants.tileSize
 import com.mauzerov.mobileplatform.game.canvas.GameConstants.heightMap
 import com.mauzerov.mobileplatform.game.canvas.values.Biome
 import com.mauzerov.mobileplatform.game.canvas.values.Height
+import com.mauzerov.mobileplatform.game.entity.Entity
+import com.mauzerov.mobileplatform.items.ItemBase
+import com.mauzerov.mobileplatform.items.consumables.Chocolate
+import com.mauzerov.mobileplatform.items.consumables.ECola
+import com.mauzerov.mobileplatform.items.consumables.Food
+import com.mauzerov.mobileplatform.items.consumables.Sprouty
+import com.mauzerov.mobileplatform.items.utils.Phone
 
 
 @SuppressLint("ViewConstructor")
 class GameMap(context: Context, val saveDestination: String) : SurfaceView(context) {
+    val entities: MutableList<Entity> = mutableListOf()
     private var textures: Textures = Textures(resources)
+    val touchActions = mutableMapOf<Int, (MotionEvent, GameMap) -> Unit>()
 
     var player: Player = Player(0, 0, 24, (0.75 * tileSize.height).toInt())
 
@@ -45,19 +54,28 @@ class GameMap(context: Context, val saveDestination: String) : SurfaceView(conte
 
     var heightTypeChange: Int = 0
 
-    private fun adjustYPosition(pos: Position, size: Size) {
+    private fun getMinPossibleHeight(pos: Position) : Int {
         val mapX = ((pos.x) / tileSize.width)
-        // Log.d("POS", "${pos.x} :: $offset :: $mapX :: ${offset in (tileSize.width - size.width).. tileSize.width}")
-        if (mapX in 0 until mapSize && pos.x.between(0, mapSize * tileSize.width)) {
-//            mapX += (
-//                offset in (tileSize.width - size.width) .. tileSize.width &&
-//                heightMap.elementAtOrNull(mapX + 1)
-//                    .let { it != null && it > heightMap[mapX] }
-//            ).toInt()
-            pos.y = heightMap[mapX].ground * tileSize.height
-        }
-        else
-            pos.y = -oceanDepth * 4
+
+        if (mapX in 0 until mapSize && pos.x.between(0, mapSize * tileSize.width))
+            return heightMap[mapX].ground * tileSize.height
+        return -oceanDepth * 4
+    }
+
+    private fun adjustYPosition(pos: Position) {
+        pos.y = pos.y.coerceAtLeast(getMinPossibleHeight(pos))
+//        val mapX = ((pos.x) / tileSize.width)
+//        // Log.d("POS", "${pos.x} :: $offset :: $mapX :: ${offset in (tileSize.width - size.width).. tileSize.width}")
+//        if (mapX in 0 until mapSize && pos.x.between(0, mapSize * tileSize.width)) {
+////            mapX += (
+////                offset in (tileSize.width - size.width) .. tileSize.width &&
+////                heightMap.elementAtOrNull(mapX + 1)
+////                    .let { it != null && it > heightMap[mapX] }
+////            ).toInt()
+//            pos.y = pos.y.coerceAtLeast(heightMap[mapX].ground * tileSize.height)
+//        }
+//        else
+//            pos.y = pos.y.coerceAtLeast(-oceanDepth * 4)
     }
 
     init {
@@ -93,6 +111,15 @@ class GameMap(context: Context, val saveDestination: String) : SurfaceView(conte
                 }
             }
         })
+        player.items.phone = Phone(resources)
+        player.items.all.add(player.items.phone!!)
+        player.items.all.add(ECola(resources))
+        player.items.all.add(ECola(resources))
+        player.items.all.add(ECola(resources))
+        player.items.all.add(Sprouty(resources))
+        player.items.all.add(Chocolate(resources))
+
+        entities.add(player)
     }
 
 
@@ -240,7 +267,7 @@ class GameMap(context: Context, val saveDestination: String) : SurfaceView(conte
         )
     }
     private fun drawPlayer(g: Canvas) {
-        adjustYPosition(player.position, player.size)
+        adjustYPosition(player.position)
         drawing.RectBorderless(g, DisplayRect((width / 2) - (player.size.width / 2),
             height - (player.position.y + doubleTileHeight) - player.size.height,
             player.size.width,
@@ -286,11 +313,18 @@ class GameMap(context: Context, val saveDestination: String) : SurfaceView(conte
     override fun onTouchEvent(e: MotionEvent?): Boolean {
         Log.i("Touched", "now")
         e?.let {
+            if (e.action == MotionEvent.ACTION_UP)
+                touchActions.forEach { action ->
+                    action.value.invoke(e, this)
+                }
+
             val quarterWidth = width / 4
             val offsetToCenter = e.x.toInt() - (width / 2 - (player.size.width / 2))
 
             if (!e.x.toInt().between(quarterWidth, width - quarterWidth))
                 return true
+
+            player.jump { position -> return@jump getMinPossibleHeight(position) >= position.y }
             val pressedX = player.position.x + offsetToCenter
             val mapIndex = pressedX / tileSize.width - 1
             Log.d("OFFSET", "index=$mapIndex, $offsetToCenter, (${player.position})")
